@@ -1,3 +1,3 @@
 NLP
 
-modern explorations natural language processing
+modern explorations in natural language processing

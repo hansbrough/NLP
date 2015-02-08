@@ -1,0 +1,21 @@
+{
+  "$filter": "env",
+  "prod": {
+    "url": "https://www.brightsky.co",
+    "options": {
+      "debug": true      
+    }  
+  },
+  "stage": {
+    "url": "http://stage.brightsky.co",
+    "options": {
+      "debug": true      
+    }  
+  },
+  "$default": {
+    "url": "http://stage.brightsky.co",
+    "options": {
+      "debug": true      
+    }  
+  }
+}
