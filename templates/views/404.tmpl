@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>10 | {{pageTitle}}</title>
+	{{> head_metaTags}}
+	{{> head_commonStylesheets}}
+	<link href="/css/apps/static/page-not-found.css" rel="stylesheet" media="screen">
+</head>
+
+<body class="static page-not-found toggleable">
+
+	<!-- Static navbar -->
+	{{> header}}
+	{{> aside_navigation}}
+
+
+	<section id="section-body" class="section-page toggleable">
+		<div class="fade toggleable" id="fade"></div>
+		<div class="container">
+			<h1>{{contentTitle}}</h1>
+			<div class="not-found-container">
+				<img src="/img/apps/static/404.jpg" class="epic-fail">
+				<h3>Whoops - we couldn't find that page!</h3>
+				<p class="fail-message">Maybe you are looking for some <a href="/support">Support</a> or would like to start over from our <a href="/">10 homepage</a>.</p>
+			</div>
+		</div>
+		
+	</section>
+	
+	
+
+	{{> js_common}}
+	<script type="text/javascript" src="/js/apps/static-pages/BSL.Static.Header.js"></script>
+	{{> google_analytics}}
+</body>
+</html>

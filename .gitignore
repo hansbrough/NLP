@@ -1,3 +1,7 @@
+*.scssc
+*.vagrant/
+*.tmproj
+
 # Logs
 logs
 *.log

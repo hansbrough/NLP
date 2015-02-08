@@ -1,0 +1,165 @@
+//--- Basic Mixins
+
+@mixin transition($args) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+// basic transform
+@mixin transform($transforms) {
+	-moz-transform: $transforms;
+	-o-transform: $transforms;
+	-ms-transform: $transforms;
+	-webkit-transform: $transforms;
+	transform: $transforms;
+}
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+ 
+// scale
+@mixin scale($scale) {
+	 @include transform(scale($scale));
+} 
+// translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+// skew
+@mixin skew ($x, $y) {
+   @include transform(skew(#{$x}deg, #{$y}deg));
+}
+//transform origin
+@mixin transform-origin ($origin) {
+    moz-transform-origin: $origin;
+	     -o-transform-origin: $origin;
+	    -ms-transform-origin: $origin;
+	-webkit-transform-origin: $origin;
+          transform-origin: $origin;
+}
+
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin clearfix {
+  *zoom: 1;
+	overflow:hidden;
+}
+
+@mixin hide-text {
+	font: 0/0 a;
+	text-shadow: none;
+	color: transparent;
+}
+
+@mixin background-size ($value) {
+	-moz-background-size: $value;
+	-o-background-size: $value;
+	-ms-background-size: $value;
+	-webkit-background-size: $value;
+	background-size: $value;
+}
+
+@mixin image-2x($image, $width, $height) {
+	@media	(min--moz-device-pixel-ratio: 1.3),
+					(-o-min-device-pixel-ratio: 2.6/2),
+					(-webkit-min-device-pixel-ratio: 2),
+					(min-device-pixel-ratio: 2),
+					(min-resolution: 1.3dppx) {
+			/* on retina, use image that's scaled by 2 */
+			background-image: url($image);
+			background-size: $width $height;
+			}
+}
+
+
+@mixin linear-gradient($fromColor, $toColor) {
+	background-color: $toColor; /* Fallback Color */
+	background-image: -webkit-gradient(linear, left top, left bottom, from($fromColor), to($toColor)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, $fromColor, $toColor); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, $fromColor, $toColor); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, $fromColor, $toColor); /* IE10 */
+	background-image:      -o-linear-gradient(top, $fromColor, $toColor); /* Opera 11.10+ */
+	background-image:         linear-gradient(top, $fromColor, $toColor);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#{$fromColor}', EndColorStr='#{$toColor}');
+}
+
+@mixin radial-gradient-feathered-gray(){
+  background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.65) 25%, rgba(0,0,0,0) 75%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(25%,rgba(0,0,0,0.65)), color-stop(75%,rgba(0,0,0,0)));
+  background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.65) 25%,rgba(0,0,0,0) 75%);
+  background: -o-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.65) 25%,rgba(0,0,0,0) 75%);
+  background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.65) 25%,rgba(0,0,0,0) 75%);
+  background: radial-gradient(ellipse at center,  rgba(0,0,0,0.65) 25%,rgba(0,0,0,0) 75%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 );
+}
+
+@mixin button_primary(){
+  border: 1px solid #000;
+  border-radius: 60px;
+  vertical-align:text-bottom;
+  padding: 10px 20px 5px;
+  color: #000;
+  display: block;
+  line-height: 1.4;
+  cursor: pointer;
+  background-color: transparent;
+  -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  -ms-transition: background-color 0.3s;
+  text-align:center;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+@mixin border-radius($size){
+  -moz-border-radius:$size;
+  -webkit-border-radius:$size;
+  border-radius:$size;
+  
+}
+
+/* to nearest ancestor positioned relative */
+@mixin center-block-vertically(){
+  position:absolute;
+  top:50%;
+  -webkit-transform: translate(0px, -50%);
+  -moz-transform:    translate(0px, -50%);
+  -ms-transform:     translate(0px, -50%);
+  -o-transform:      translate(0px, -50%);
+  transform:         translate(0px, -50%);
+}
+
+@mixin font-xx-small(){
+  font-size:0.4em;
+}
+@mixin font-x-small(){
+  font-size:0.6em;
+}
+@mixin font-small(){
+  font-size:0.8em;
+}
+@mixin font-medium(){
+  font-size:1em;
+}
+@mixin font-large(){
+  font-size:1.4em;
+}
+@mixin font-x-large(){
+  font-size:2em;
+}
+@mixin font-xx-large(){
+  font-size:3em;
+}
+@mixin font-xxx-large(){
+  font-size:4em;
+}

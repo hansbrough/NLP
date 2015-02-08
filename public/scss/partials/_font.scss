@@ -1,0 +1,52 @@
+/*
+ * Common Font Properties (resets partial)
+ */
+
+//Size 
+.xx-small {
+  @include font-xx-small();
+}
+
+.x-small {
+  @include font-x-small();
+}
+
+.small {
+  @include font-small();
+}
+
+.medium {
+  @include font-medium();
+}
+
+.large {
+  @include font-large();
+}
+
+.x-large {
+  @include font-x-large();
+}
+
+.xx-large {
+  @include font-xx-large();
+}
+
+.xxx-large {
+  @include font-xxx-large();
+}
+
+//Weight
+.thin {
+  font-family: $fontFamily;
+}
+
+//Standardized customizations.
+.with-given-elements-bold {
+  span {
+    font-family:$fontFamilyBold;
+  }
+}
+
+.on-dark-background {
+  color:#fff;
+}

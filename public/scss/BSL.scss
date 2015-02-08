@@ -1,0 +1,17 @@
+//import this file in every project file to inherit the basics
+
+//sass variables
+
+//fonts
+$fontFamily: WesFY-Thin;
+$fontFamilyBold: WesFY-Bold;
+$glyphFamily: '10font';
+
+//colors
+$errorRed: #b94a48;
+$color_coral: #fc4945;
+
+//images,logos
+//$10LogoForStaticHeader: /img/icons/10-Logo-transparent.png;
+
+@import	'mixins/basic_mixins';

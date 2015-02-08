@@ -1,0 +1,30 @@
+{
+  "node":         true,
+  "bitwise":      true,
+  "curly":        true,
+  "eqeqeq":       true,
+  "immed":        true,
+  "noarg":        true,
+  "noempty":      true,
+  "trailing":     true,
+  "lastsemic":    true,
+  "laxbreak":     true,
+  "latedef":      true,
+  "undef":        true,
+  "unused":       "vars",
+  "maxlen":       200,
+  "predef": [
+    "it",
+    "describe",
+    "before",
+    "beforeEach",
+    "after",
+    "afterEach",
+		"define",
+		"Backbone",
+		"Marionette",
+		"$",
+		"_",
+		"requirejs"
+  ]
+}
