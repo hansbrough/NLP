@@ -16,7 +16,6 @@ define([
     
     var Parser = {
       respond: function(text){
-        //console.log('respond');
         var pos     = this.map(text),
             syntax  = this.getPhrases(pos[0]);
         //console.log(syntax);
@@ -27,7 +26,7 @@ define([
         var sentences = NLP.sentences,
             len       = sentences.length,
             pos_list  = [];
-        console.log(NLP);
+
         for(var i =0;i<len;i++){
           var tokens      = sentences[i].tokens,
               tokensLen   = tokens.length,
@@ -52,12 +51,12 @@ define([
           return item[1];
         });
         
-        console.log("checkTagsForPhrases", pos_list, text_list);
+        //console.log("checkTagsForPhrases", pos_list, text_list);
         var start   = 0,
             phrases = []; 
                   
         for(var i=0;i<=len;i++){
-          console.log('...iteration: ',i);
+          //console.log('...iteration: ',i);
           tagStr = this.makeString(pos_list,{trim_points:{start:start,end:i}});
           var phrase = this.isPhrase(tagStr);
           //note: lookahead shouldnt just happen if a phrase is found
@@ -66,12 +65,12 @@ define([
           //essentially rework the below ...
           if(phrase){
             //if found look ahead to next tag for possible further match. e.g. 'down the street' vs just 'down'
-            console.log(".....phraseFound now lookAhead");
+            //console.log(".....phraseFound now lookAhead");
             var candidate = this.lookAhead(pos_list, start, i, {phrase:phrase, tagStr:tagStr} );
-            console.log("..... candidate returned from lookAhead:",candidate);
+            //console.log("..... candidate returned from lookAhead:",candidate);
             start = i;
             if(candidate){
-              console.log('...... candidate: ',candidate);
+              //console.log('...... candidate: ',candidate);
               phrase  = candidate.phrase;
               tagStr  = candidate.tagStr;
               start   = candidate.start;
@@ -97,7 +96,7 @@ define([
         return phrases;
       },
       getPhrases: function(pos){
-        console.log('getPhrases: ',pos)
+        //console.log('getPhrases: ',pos)
         var tagStr,
             sentencePhrases = [],
             len     = pos.length;
@@ -107,14 +106,14 @@ define([
         //possible to find no phrases on the first pass
         //recurse - sans first tag.
         if(phrases.length === 0){
-          console.log('phrase not found')
+          //console.log('phrase not found')
           this.checkTagsForPhrases( pos.slice(1, len));
         }
         sentencePhrases = sentencePhrases.concat(phrases);
         return sentencePhrases;
       },
       isPhrase: function(pattern){
-        console.log("isPhrase: ",pattern);
+        //console.log("isPhrase: ",pattern);
         var isPhrase = false;
         if(phraseDict[pattern]){
           isPhrase = phraseDict[pattern];
@@ -129,7 +128,7 @@ define([
        * w/out looking several tags ahead potential matches will missed.
        */
       lookAhead: function(list, startIdx, endIdx, existing, iteration){
-        console.log("lookAhead:",list, startIdx, endIdx, existing, iteration);
+        //console.log("lookAhead:",list, startIdx, endIdx, existing, iteration);
         existing = existing || null;
         iteration = iteration || 0;
         var nextEndIdx  = endIdx+1,
@@ -139,12 +138,12 @@ define([
           
         if(phrase){
           iteration++;
-          console.log('..... lookAhead - incremented phrase found:',phrase);
+          //console.log('..... lookAhead - incremented phrase found:',phrase);
           if(nextEndIdx <= list.length){
-            console.log('..... lookAhead - more to increment');
+            //console.log('..... lookAhead - more to increment');
             return this.lookAhead(list, startIdx, nextEndIdx, {phrase:phrase,tagStr:tagStr},iteration);
           }else{//out of tags - exit.
-            console.log('..... lookAhead exiting - no more to increment.',{phrase:phrase, tagStr:tagStr, start:startIdx, end:endIdx});
+            //console.log('..... lookAhead exiting - no more to increment.',{phrase:phrase, tagStr:tagStr, start:startIdx, end:endIdx});
             phraseInfo = {phrase:phrase, tagStr:tagStr, start:startIdx, end:endIdx};
             //console.log("....... returning phraseInfo:",phraseInfo);
             return phraseInfo;
@@ -152,28 +151,28 @@ define([
         }else{
           iteration++;
           if(iteration < 2){
-            console.log('....... no match found but keep looking - iteration:',iteration);
+            //console.log('....... no match found but keep looking - iteration:',iteration);
             return this.lookAhead(list, startIdx, nextEndIdx, existing,iteration);//recursive funcs need to return value back up scope chain.
           }else{
-            console.log('...lookAhead exiting with: ',existing);
+            //console.log('...lookAhead exiting with: ',existing);
             //last phrase search unsuccessful - return last good values. e.g. endIdx needs to be decremented.
             //phraseInfo = (existing) ? {phrase:existing.phrase, tagStr:existing.tagStr, start:startIdx, end:(endIdx-1)} : null;
             return (existing) ? {phrase:existing.phrase, tagStr:existing.tagStr, start:startIdx, end:(endIdx-1)} : null;
           }
         }
         
-        console.log("....... returning phraseInfo:",phraseInfo);
+        //console.log("....... returning phraseInfo:",phraseInfo);
         return phraseInfo;
       },
       makeString: function(tags, options){
-        console.log('makeString:',tags,options);
+        //console.log('makeString:',tags,options);
         options = options || {};
         var delimiter = options.delimiter || '-';
         if(options.trim_points){
           tags = tags.slice(options.trim_points.start, options.trim_points.end);
         }
         var tagStr = tags.join(delimiter);
-        console.log('...',tagStr);
+        //console.log('...',tagStr);
         return tagStr;
       }
     };

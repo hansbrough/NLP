@@ -38,6 +38,7 @@ define([
           
           //Syntax 
           var syntax = SyntacticParser.respond( $talkbox.val() );
+          console.log(syntax);
           //todo: this just for debug
           for(var i =0; i<syntax.length;i++){
             var pos = syntax[i],
