@@ -20,6 +20,7 @@ define([
       * return array of integers representing the first and last idx of a pos from a given phrase
       */
       getWordsByTagIdx: function(Phrase, posType){
+        //console.log("getWordsByTagIdx:",Phrase, posType);
         var first = null,
             last  = null,
             pos, NNIdx;
@@ -30,6 +31,7 @@ define([
           first = Phrase.text.split(' ')[NNIdx];
           last = (NNLastIdx !== NNIdx) ? Phrase.text.split(' ')[NNLastIdx] : null;
         }
+        
         return [first,last];
       },
       setSubject: function(){
@@ -40,7 +42,7 @@ define([
         //look for first noun phrase after a verb phrase
         var VPIdx,
             len = this.numPhrases,
-            NP,PP,sentenceObjects;
+            NP,PP,sentenceObjects,obj,indirectObj;
         for(var i =0;i<len;i++){
           if(this.syntax[i].type === 'VP'){
             VPIdx = i;
@@ -54,20 +56,31 @@ define([
           }
         };
         sentenceObjects = this.getWordsByTagIdx(NP, 'NN');
+        obj             = sentenceObjects[0];
+        indirectObj     = sentenceObjects[1];
         
-        //if not found try prepositional phrase
-        if(!sentenceObjects[1]){
+        //if not found try looking for a prepositional phrase
+        if(!obj || !indirectObj){
           for(var y = VPIdx;y<len;y++){
             if(this.syntax[y].type === 'PP'){
               PP = this.syntax[y];
               break;
             }
           }
-          sentenceObjects[1] = this.getWordsByTagIdx(PP, 'NN')[0];
+          var newSentenceObjs = this.getWordsByTagIdx(PP, 'NN');
+          obj = (obj) ? obj : newSentenceObjs[0];
+          
+          if(!indirectObj){
+            if(obj && obj !== newSentenceObjs[0]){
+              indirectObj = newSentenceObjs[0];
+            }else{
+              indirectObj = newSentenceObjs[1];
+            }
+          }
         }
         
-        this.meaning.directObject = sentenceObjects[0];
-        this.meaning.indirectObject = sentenceObjects[1];
+        this.meaning.directObject = obj;
+        this.meaning.indirectObject = indirectObj;
       }
     };
 

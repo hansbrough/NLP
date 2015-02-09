@@ -7,7 +7,7 @@ define([
     //
     var phraseDict  = {
       'DT-JJ-JJ-NN':'NP','DT-JJ-NN':'NP','DT-JJR-NN':'NP','DT-JJS-NN':'NP','DT-JJS-NNA':'NP','DT-NN':'NP','NN':'NP','PRP':'NP',
-      'IN-DT-NN':'PP','IN-NN':'PP','IN':'PP',
+      'IN-DT-NN':'PP','IN-NN':'PP','JJ-NN':'PP','IN':'PP',
       'CP-VBG':'VP','RB-VBD':'VP','VBZ':'VP','VBD':'VP','VBP':'VP','VB':'VP','MD':'VP','CP':'VP',
       'DT-CP-DT-JJ':'QP',
       'JJ-RB-JJ':'AP','JJ-RB':'AP','RB-JJ':'AP','JJ':'AP','RB':'AP'
