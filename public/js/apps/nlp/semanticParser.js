@@ -13,26 +13,47 @@ define([
         this.syntax = syntaxObj;
         this.numPhrases = this.syntax.length,
         this.setSubject();
+        this.setAction();
+        this.setPlace();
         this.setSentenceObjects();
         return this.meaning;
       },
       /*
-      * return array of integers representing the first and last idx of a pos from a given phrase
+      * return array of integers representing the first and last idx of a pos from a given phrase.
+      * posType can be a string or array of strings
       */
       getWordsByTagIdx: function(Phrase, posType){
         //console.log("getWordsByTagIdx:",Phrase, posType);
         var first = null,
             last  = null,
-            pos, NNIdx;
+            pos, posIdx;
         if(Phrase && posType){
           pos = Phrase['tag-string'].split('-');
-          NNIdx = _.indexOf(pos, posType);
-          NNLastIdx = _.lastIndexOf(pos, posType);
-          first = Phrase.text.split(' ')[NNIdx];
-          last = (NNLastIdx !== NNIdx) ? Phrase.text.split(' ')[NNLastIdx] : null;
+          if( _.isString(posType) ){
+            posIdx = _.indexOf(pos, posType);
+          }else if( _.isArray(posType) ){
+            var len = posType.length;
+            while(len--){
+              posIdx = _.indexOf(pos, posType[len]);
+              if(posIdx >=0){
+                break
+              }
+            }
+          }
+          posLastIdx = _.lastIndexOf(pos, posType);
+          first = Phrase.text.split(' ')[posIdx];
+          last = (posLastIdx !== posIdx) ? Phrase.text.split(' ')[posLastIdx] : null;
         }
         
         return [first,last];
+      },
+      setAction: function(){
+        var VPs   = _.where(this.syntax, {'type':'VP'});
+        this.meaning.action = this.getWordsByTagIdx(VPs[0], ['VBD','VBZ','VBP'])[0];
+      },
+      setPlace: function(){
+        var PPs = _.where(this.syntax, {'type':'PP'});
+        this.meaning.place = this.getWordsByTagIdx(PPs[0], 'NN')[0];
       },
       setSubject: function(){
         var NPs       = _.where(this.syntax, {'type':'NP'});
