@@ -16,10 +16,10 @@ define([
     
     var Parser = {
       respond: function(text){
-        console.log('respond');
+        //console.log('respond');
         var pos     = this.map(text),
             syntax  = this.getPhrases(pos[0]);
-        console.log(syntax);
+        //console.log(syntax);
         return syntax;
       },
       map: function(text){
