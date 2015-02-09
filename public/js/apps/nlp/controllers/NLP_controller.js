@@ -6,7 +6,7 @@ define([
   'app/layouts/NLP_layout',
   'app/syntacticParser'],
   
-  function($, _, Marionette, overrides, NLPLayout, PhraseParser){
+  function($, _, Marionette, overrides, NLPLayout, SyntacticParser){
     var $msgWin       = null,
         $talkbox      = null,
         $send         = null;
@@ -34,8 +34,17 @@ define([
         $send.on('click', function(evt){
           evt.preventDefault();
           console.log($talkbox.val());
-          console.log(PhraseParser.respond( $talkbox.val() ));
-          $msgWin.append($talkbox.val()+'\n');
+          //console.log(SyntacticParser.respond( $talkbox.val() ));
+          var syntax = SyntacticParser.respond( $talkbox.val() );
+          $msgWin.append($talkbox.val()+'\n\n');
+          
+          //todo: this just for debug
+          for(var i =0; i<syntax.length;i++){
+            var pos = syntax[i],
+                respStr = '"'+pos.text+'" is a '+ pos.type+ ' ('+pos["tag-string"]+')';
+            $msgWin.append(respStr+'\n');
+          }
+          
           $talkbox.val('');
           
         });

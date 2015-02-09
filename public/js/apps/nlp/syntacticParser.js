@@ -6,20 +6,21 @@ define([
   function($, _){
     //
     var phraseDict  = {
-      'DT-JJ-JJ-NN':'NP','DT-JJ-NN':'NP','DT-JJR-NN':'NP','DT-JJS-NN':'NP','DT-NN':'NP','NN':'NP','PRP':'NP',
+      'DT-JJ-JJ-NN':'NP','DT-JJ-NN':'NP','DT-JJR-NN':'NP','DT-JJS-NN':'NP','DT-JJS-NNA':'NP','DT-NN':'NP','NN':'NP','PRP':'NP',
       'IN-DT-NN':'PP','IN-NN':'PP','IN':'PP',
-      'CP-VBG':'VP','RB-VBD':'VP','VBZ':'VP','VBD':'VP','VBP':'VP','VB':'VP','MD':'VP',
-      'DT-CP-DT-JJ':'QP'
+      'CP-VBG':'VP','RB-VBD':'VP','VBZ':'VP','VBD':'VP','VBP':'VP','VB':'VP','MD':'VP','CP':'VP',
+      'DT-CP-DT-JJ':'QP',
+      'JJ-RB-JJ':'AP','JJ-RB':'AP','RB-JJ':'AP','JJ':'AP','RB':'AP'
     },
     NLP = null;
     
     var Parser = {
       respond: function(text){
         console.log('respond');
-        var pos = this.map(text);
-        var syntax = this.getPhrases(pos[0]);
-        console.log("////----- Parser.respond -----////");
+        var pos     = this.map(text),
+            syntax  = this.getPhrases(pos[0]);
         console.log(syntax);
+        return syntax;
       },
       map: function(text){
         NLP = nlp.pos(text);
