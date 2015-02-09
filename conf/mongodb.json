@@ -1,0 +1,15 @@
+{
+  "$filter": "env",
+  "prod": {
+    "url": "mongodb://localhost/brightsky",
+    "options": {
+      "debug": true      
+    }  
+  },
+  "$default": {
+    "url": "mongodb://localhost/brightsky",
+    "options": {
+      "debug": true      
+    }  
+  }
+}

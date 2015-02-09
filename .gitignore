@@ -1,6 +1,7 @@
 *.scssc
 *.vagrant/
 *.tmproj
+*.css.map
 
 # Logs
 logs
