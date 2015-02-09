@@ -57,7 +57,7 @@ define([
       },
       setSubject: function(){
         var NPs       = _.where(this.syntax, {'type':'NP'});
-        this.meaning.subject = this.getWordsByTagIdx(NPs[0], 'NN')[0];
+        this.meaning.subject = this.getWordsByTagIdx(NPs[0], ['PRP','NN'])[0];
       },
       setSentenceObjects: function(){
         //look for first noun phrase after a verb phrase
