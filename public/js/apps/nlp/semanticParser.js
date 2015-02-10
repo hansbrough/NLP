@@ -12,11 +12,24 @@ define([
         console.log('--- SemanticParser ---');
         this.syntax = syntaxObj;
         this.numPhrases = this.syntax.length,
+        this.phraseMap = this.getPhraseMap();
         this.setSubject();
         this.setAction();
         this.setPlace();
         this.setSentenceObjects();
+        this.setTime();
+        this.setManner();
+        this.setReason();
         return this.meaning;
+      },
+      /*
+      * return a ordered, concatenated list of phrases from a given sentence.
+      */
+      getPhraseMap: function(){
+        var map = _.map(this.syntax, function(item){
+          return item.type;
+        });
+        return map.join('-');
       },
       /*
       * return array of integers representing the first and last idx of a pos from a given phrase.
@@ -51,9 +64,32 @@ define([
         var VPs   = _.where(this.syntax, {'type':'VP'});
         this.meaning.action = this.getWordsByTagIdx(VPs[0], ['VBD','VBZ','VBP'])[0];
       },
+      setManner: function(){
+        var phraseMap = this.phraseMap,
+            manner = null;
+        console.log('setManner: ', phraseMap);
+        //look in 3 places
+        
+        //1. PP ex. 'Jim runs with ease'
+        
+        //2. VP ex. 'Jim quickly runs'
+        
+        //3. AP following VP ex. 'Jim runs very fast'
+        var phraseStrIdx = phraseMap.search(/(VP\-AP)/),
+            nonMatch = phraseMap.substr(0,phraseStrIdx),
+            phraseIdx = nonMatch.split('-').length,//get index after matching verb phrase
+            matchingAP  = this.syntax[phraseIdx];
+            manner = matchingAP.text;
+        //console.log('...',phraseStrIdx, nonMatch, phraseIdx, matchingAP);
+        
+        this.meaning.manner = manner;
+      },
       setPlace: function(){
         var PPs = _.where(this.syntax, {'type':'PP'});
         this.meaning.place = this.getWordsByTagIdx(PPs[0], 'NN')[0];
+      },
+      setReason: function(){
+        this.meaning.reason = null;
       },
       setSubject: function(){
         var NPs       = _.where(this.syntax, {'type':'NP'});
@@ -102,6 +138,9 @@ define([
         
         this.meaning.directObject = obj;
         this.meaning.indirectObject = indirectObj;
+      },
+      setTime: function(){
+        this.meaning.time = null;
       }
     };
 
