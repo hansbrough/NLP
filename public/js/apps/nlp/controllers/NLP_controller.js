@@ -4,9 +4,10 @@ define([
   'backbone.marionette.min',
   'backbone.marionette.overrides',
   'app/layouts/NLP_layout',
-  'app/syntacticParser'],
+  'app/syntacticParser',
+  'app/semanticParser'],
   
-  function($, _, Marionette, overrides, NLPLayout, PhraseParser){
+  function($, _, Marionette, overrides, NLPLayout, SyntacticParser, SemanticParser){
     var $msgWin       = null,
         $talkbox      = null,
         $send         = null;
@@ -33,9 +34,26 @@ define([
         //event handlers
         $send.on('click', function(evt){
           evt.preventDefault();
-          console.log($talkbox.val());
-          console.log(PhraseParser.respond( $talkbox.val() ));
-          $msgWin.append($talkbox.val()+'\n');
+          $msgWin.append($talkbox.val()+'\n\n');
+          
+          //Syntax 
+          var syntax = SyntacticParser.respond( $talkbox.val() );
+          console.log(syntax);
+          //todo: this just for debug
+          for(var i =0; i<syntax.length;i++){
+            var pos = syntax[i],
+                respStr = '"'+pos.text+'" is a '+ pos.type+ ' ('+pos["tag-string"]+')';
+            $msgWin.append(respStr+'\n');
+          }
+          
+          //Semantics
+          var meaning = SemanticParser.getMeaning(syntax);
+          console.log(meaning);
+          //todo: this just for debug
+          $msgWin.append('\n --Meaning-- \n');
+          for(var i in meaning){
+            $msgWin.append(i+' = '+meaning[i]+'\n');
+          }
           $talkbox.val('');
           
         });
